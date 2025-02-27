@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,7 +21,7 @@ void typing_test(void);
 
 char dictionary[DICTIONARY_LENGTH][WORD_LENGTH];
 int wrong = 0, correct = 0, position = 0;
-bool one_word = false, debug = false, random_order = false;
+bool one_word = false, debug = false, random_order = false, ignore_case = false;
 
 int main(int argc, char *argv[])
 {
@@ -36,9 +37,11 @@ int main(int argc, char *argv[])
                 debug = true;
             else if ((strcmp(argv[i], "--random")) == 0)
                 random_order = true;
+            else if ((strcmp(argv[i], "--ignore-case")) == 0)
+                ignore_case = true;
             else
             {
-                printf("Usage: %s <command>. [--debug] [--one-word] [--random]\n", argv[0]);
+                printf("Usage: %s <command>. [--debug] [--one-word] [--random] [--ignore-case]\n", argv[0]);
 
                 exit(1);
             }
@@ -103,6 +106,14 @@ void check_misspelling(char typed_word[], char correct_word[])
     }
 
     correct_word_formated[j] = '\0';
+
+    if (ignore_case == true)
+    {
+        // One line is great. Again, thx StackOverFlow
+        for (char *letter = correct_word_formated; *letter; ++letter) *letter = tolower(*letter);
+        
+        for (char *letter = typed_word; *letter; ++letter) *letter = tolower(*letter);
+    }
     
     if (strcmp(typed_word, correct_word_formated) == 0)
         correct++;
