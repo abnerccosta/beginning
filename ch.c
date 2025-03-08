@@ -5,7 +5,7 @@
 
 #ifdef __linux__
     int OS = 0;
-#elif _WIN32_
+#elif _WIN32
     int OS = 1;
 #endif
 
