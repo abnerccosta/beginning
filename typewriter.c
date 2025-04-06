@@ -219,6 +219,9 @@ void load_text(void)
 
     while((buffer=fgetc(words)) != EOF)
     {
+        if (buffer == '\n')
+            buffer = ' ';
+        
         if (buffer == ' ')
         {
             dictionary[i][j] = '\0';
